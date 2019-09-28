@@ -1,0 +1,46 @@
+{
+  "name": "coding-challange-mercavus",
+  "version": "0.0.0",
+  "description": "",
+  "main": "main.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc --project ./tsconfig.build.json",
+    "start": "ts-node --project ./tsconfig.json src/Main.ts $NODE_DEBUG_OPTION",
+    "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/main.js\"",
+    "lint": "tslint --project .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/jest": "^24.0.14",
+    "@types/lodash": "^4.14.134",
+    "@types/node": "^12.0.8",
+    "dotenv": "^8.0.0",
+    "husky": "^2.4.1",
+    "jest": "^24.8.0",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.2.0",
+    "tsc-watch": "^4.0.0",
+    "tslint": "^5.17.0",
+    "typescript": "^3.5.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "yarn lint",
+      "git add"
+    ]
+  }
+}

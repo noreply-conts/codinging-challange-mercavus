@@ -1,0 +1,12 @@
+@startuml
+
+title Overview how components communicate
+autonumber
+
+actor user
+user -> frontend: Enters index.html
+frontend -> backend : GET /users
+frontend <-- backend : Return list of users
+frontend --> user : Display list of users
+
+@enduml
