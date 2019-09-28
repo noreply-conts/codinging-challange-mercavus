@@ -1,4 +1,5 @@
 import { logger } from "./Logger";
+import * as Hapi from "@hapi/hapi";
 
 if (process.env.NODE_ENV !== "production") {
   /* tslint:disable-next-line */
@@ -14,7 +15,13 @@ if (Number.isNaN(port)) {
 }
 
 const bootServer = async () => {
-  logger.info("Startup complete");
+  const server = new Hapi.Server({
+    port: 3000,
+    host: "localhost"
+  });
+
+  await server.start();
+  logger.info(`Server running on ${server.info.uri}`);
 };
 
 bootServer().catch(error => {

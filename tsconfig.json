@@ -5,5 +5,9 @@
     "noEmit": true,
     "strict": true,
     "allowJs": false
-  }
+  },
+  "typeRoots": [
+    "./@types",
+    "./node_modules/@types"
+  ]
 }
