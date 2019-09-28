@@ -45,7 +45,7 @@ export class Server {
     this.hapi.route({
       method: "GET",
       path: this.ApiPrefix + "/users/{id}",
-      handler: () => this.userController.getById
+      handler: this.userController.getById
     });
   }
   private initPublicRoutes() {

@@ -7,12 +7,6 @@ import { UserController } from "./controllers/UserController";
 import { MongooseConfig } from "./config/MongooseConfig";
 import { ExampleDataConfig } from "./config/ExampleDataConfig";
 
-if (process.env.NODE_ENV !== "production") {
-  /* tslint:disable-next-line */
-  const dotenv = require("dotenv");
-  dotenv.config();
-}
-
 const { PORT = 3000 } = process.env;
 
 const port = Number(PORT);
@@ -48,6 +42,12 @@ export const bootstrap = async (): Promise<BootstrapReturn> => {
 };
 
 if (require.main === module) {
+  if (process.env.NODE_ENV !== "production") {
+    /* tslint:disable-next-line */
+    const dotenv = require("dotenv");
+    dotenv.config();
+  }
+
   bootstrap().catch(error => {
     logger.error("Error on startup: ", error);
     process.exit(-1);
