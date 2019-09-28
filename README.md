@@ -1,10 +1,21 @@
 # codinging-challange-mercavus
+[![Build Status](https://travis-ci.com/B-Stefan/codinging-challange-mercavus.svg?token=VfTpUUSPLMrEEjUCGcg2&branch=master)](https://travis-ci.com/B-Stefan/codinging-challange-mercavus)
 
 Project for a Senior Backend Engineer (Nodejs, Mongo DB) position at mercavus
 
-
 ## Getting Started 
 
+### Development 
+
+* Clone repository 
+* Execute `yarn`
+* Execute `yarn start`
+* Open http://localhost:3000
+
+### Enviorments 
+
+* [Production](https://codinging-challange-mercavus.herokuapp.com/)
+* Staging - not setup
 
 ## Tasks 
 
