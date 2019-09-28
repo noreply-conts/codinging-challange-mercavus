@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitReturns": true,
+    "strictPropertyInitialization": false,
     "target": "esnext",
     "noEmit": true,
     "strict": true,

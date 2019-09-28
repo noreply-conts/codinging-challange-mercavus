@@ -10,23 +10,34 @@
     "start": "ts-node --project ./tsconfig.json src/Main.ts $NODE_DEBUG_OPTION",
     "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/main.js\"",
     "lint": "tslint --project .",
-    "test": "jest"
+    "test": "yarn test:unit && yarn test:integration",
+    "test:unit": "jest",
+    "test:integration": "jest --config __testIntegration__/jest.config.js"
   },
   "dependencies": {
     "@hapi/hapi": "^18.4.0",
-    "lodash": "^4.17.11"
+    "@hapi/inert": "^5.2.2",
+    "@hasezoey/typegoose": "https://github.com/typegoose/typegoose.git#7190dce9483a69c80bd22a7d6a0a39911ea47e44",
+    "@types/mongoose": "^5.5.18",
+    "jest-extended": "^0.11.2",
+    "lodash": "^4.17.11",
+    "mongodb-memory-server": "^5.2.5",
+    "mongoose": "^5.7.1"
   },
   "devDependencies": {
     "@types/dotenv": "^6.1.1",
     "@types/hapi__hapi": "^18.2.5",
+    "@types/hapi__inert": "^5.2.0",
     "@types/jest": "^24.0.14",
     "@types/lodash": "^4.14.134",
     "@types/node": "^12.0.8",
+    "@types/supertest": "^2.0.8",
     "dotenv": "^8.0.0",
     "husky": "^2.4.1",
     "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
     "prettier": "^1.18.2",
+    "supertest": "^4.0.2",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.2.0",
     "tsc-watch": "^4.0.0",

@@ -61,6 +61,7 @@ typings/
 
 # dotenv environment variables file
 .env
+!/__testintegration__/.env
 
 # next.js build output
 .next

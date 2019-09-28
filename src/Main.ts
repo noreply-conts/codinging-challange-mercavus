@@ -1,5 +1,11 @@
 import { logger } from "./Logger";
-import * as Hapi from "@hapi/hapi";
+import { Server } from "./Server";
+import { getModelForClass, ReturnModelType } from "@hasezoey/typegoose";
+import { UserModel } from "./models/UserModel";
+import { UserService } from "./services/UserService";
+import { UserController } from "./controllers/UserController";
+import { MongooseConfig } from "./config/MongooseConfig";
+import { ExampleDataConfig } from "./config/ExampleDataConfig";
 
 if (process.env.NODE_ENV !== "production") {
   /* tslint:disable-next-line */
@@ -14,17 +20,36 @@ if (Number.isNaN(port)) {
   throw new Error("PORT env var is not properly configured.");
 }
 
-const bootServer = async () => {
-  const server = new Hapi.Server({
+interface BootstrapReturn {
+  server: Server;
+  userModel: ReturnModelType<typeof UserModel>;
+}
+export const bootstrap = async (): Promise<BootstrapReturn> => {
+  const mongooseConfig = new MongooseConfig();
+  const mongoose = await mongooseConfig.connect();
+  const userModel = getModelForClass(UserModel, { existingMongoose: mongoose });
+  const userService = new UserService(userModel);
+  const userController = new UserController(userService);
+
+  if (process.env.WITH_EXAMPLE_DATA !== "false") {
+    const exampleData = new ExampleDataConfig();
+    await exampleData.create(userModel);
+  }
+
+  const server = new Server(userController, {
     port: 3000,
     host: "localhost"
   });
 
   await server.start();
   logger.info(`Server running on ${server.info.uri}`);
+
+  return { server, userModel };
 };
 
-bootServer().catch(error => {
-  logger.error("Error on startup: " + JSON.stringify(error));
-  process.exit(-1);
-});
+if (require.main === module) {
+  bootstrap().catch(error => {
+    logger.error("Error on startup: ", error);
+    process.exit(-1);
+  });
+}
