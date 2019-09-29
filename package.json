@@ -5,6 +5,9 @@
   "main": "main.js",
   "license": "MIT",
   "private": true,
+  "engines": {
+    "node": "12.10.0"
+  },
   "scripts": {
     "build": "tsc --project ./tsconfig.build.json",
     "start": "ts-node --project ./tsconfig.json src/Main.ts $NODE_DEBUG_OPTION",
