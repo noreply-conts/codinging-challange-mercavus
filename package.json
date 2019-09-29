@@ -12,7 +12,7 @@
     "lint": "tslint --project .",
     "test": "yarn test:unit && yarn test:integration",
     "test:unit": "jest",
-    "test:integration": "jest --config ./__testIntegration__/jest.config.js --rootDir ./__testIntegration__"
+    "test:integration": "jest --config ./__testIntegration__/jest.config.js --rootDir ."
   },
   "dependencies": {
     "@hapi/hapi": "^18.4.0",
