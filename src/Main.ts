@@ -1,11 +1,17 @@
 import { logger } from "./Logger";
 import { Server } from "./Server";
-import { getModelForClass, ReturnModelType } from "@hasezoey/typegoose";
+import {
+  buildSchema,
+  getModelForClass,
+  ReturnModelType
+} from "@hasezoey/typegoose";
 import { UserModel } from "./models/UserModel";
 import { UserService } from "./services/UserService";
 import { UserController } from "./controllers/UserController";
-import { MongooseConfig } from "./config/MongooseConfig";
-import { ExampleDataConfig } from "./config/ExampleDataConfig";
+import { MongooseConfig } from "./boot/MongooseConfig";
+import { ExampleDataConfig } from "./boot/ExampleDataConfig";
+import { Types } from "mongoose";
+import { HobbyModel } from "./models/HobbyModel";
 
 const { PORT = 3000 } = process.env;
 
@@ -21,13 +27,16 @@ interface BootstrapReturn {
 export const bootstrap = async (): Promise<BootstrapReturn> => {
   const mongooseConfig = new MongooseConfig();
   const mongoose = await mongooseConfig.connect();
+  const hobbyModel = getModelForClass(HobbyModel, {
+    existingMongoose: mongoose
+  });
   const userModel = getModelForClass(UserModel, { existingMongoose: mongoose });
   const userService = new UserService(userModel);
   const userController = new UserController(userService);
 
   if (process.env.WITH_EXAMPLE_DATA !== "false") {
     const exampleData = new ExampleDataConfig();
-    await exampleData.create(userModel);
+    await exampleData.create(hobbyModel, userModel);
   }
 
   const server = new Server(userController, {

@@ -3,6 +3,7 @@ import { UserModel } from "../models/UserModel";
 import { UserService } from "../services/UserService";
 import * as _ from "lodash";
 import { NotFoundHttpError } from "../errors/NotFoundHttpError";
+import { HobbyModel } from "../models/HobbyModel";
 
 type UserView = Pick<UserModel, "id" | "name">;
 
@@ -20,6 +21,11 @@ export class UserController {
       throw new NotFoundHttpError("Not found");
     }
     return this.toView(user);
+  };
+
+  public getHobbiesById = async (req: Request): Promise<HobbyModel[]> => {
+    const id = req.params.id;
+    return await this.userService.getUserHobbiesById(id);
   };
 
   private toView = (user: UserModel): UserView => {

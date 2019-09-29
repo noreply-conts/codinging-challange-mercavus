@@ -47,6 +47,11 @@ export class Server {
       path: this.ApiPrefix + "/users/{id}",
       handler: this.userController.getById
     });
+    this.hapi.route({
+      method: "GET",
+      path: this.ApiPrefix + "/users/{id}/hobbies",
+      handler: this.userController.getHobbiesById
+    });
   }
   private initPublicRoutes() {
     this.hapi.route({
