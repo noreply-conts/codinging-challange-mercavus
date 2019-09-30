@@ -4,8 +4,8 @@ import { getModelForClass, ReturnModelType } from "@typegoose/typegoose";
 import { UserModel } from "./models/UserModel";
 import { UserService } from "./services/UserService";
 import { UserController } from "./controllers/UserController";
-import { MongooseConfig } from "./boot/MongooseConfig";
-import { ExampleDataConfig } from "./boot/ExampleDataConfig";
+import { MongooseBoot } from "./boot/MongooseBoot";
+import { ExampleDataBoot } from "./boot/ExampleDataBoot";
 import { HobbyModel } from "./models/HobbyModel";
 import { HobbyService } from "./services/HobbyService";
 
@@ -22,7 +22,7 @@ interface BootstrapReturn {
   hobbyModel: ReturnModelType<typeof HobbyModel>;
 }
 export const bootstrap = async (): Promise<BootstrapReturn> => {
-  const mongooseConfig = new MongooseConfig();
+  const mongooseConfig = new MongooseBoot();
   const mongoose = await mongooseConfig.connect();
   const hobbyModel = getModelForClass(HobbyModel, {
     existingMongoose: mongoose
@@ -33,7 +33,7 @@ export const bootstrap = async (): Promise<BootstrapReturn> => {
   const userController = new UserController(userService);
 
   if (process.env.WITH_EXAMPLE_DATA !== "false") {
-    const exampleData = new ExampleDataConfig();
+    const exampleData = new ExampleDataBoot();
     await exampleData.create(hobbyModel, userModel);
   }
 

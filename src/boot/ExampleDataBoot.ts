@@ -6,7 +6,7 @@ import * as _ from "lodash";
 import uuid = require("uuid");
 import { PassionLevel } from "../constants/PassionLevel";
 
-export class ExampleDataConfig {
+export class ExampleDataBoot {
   private users: Array<DeepPartial<UserModel>> = [
     {
       name: "John",

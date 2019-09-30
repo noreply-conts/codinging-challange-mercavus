@@ -2,7 +2,7 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import { mongoose } from "@typegoose/typegoose";
 import { Mongoose } from "mongoose";
 
-export class MongooseConfig {
+export class MongooseBoot {
   private readonly mongoServer = new MongoMemoryServer();
   private readonly DbName = "mercavus";
 
