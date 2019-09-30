@@ -1,6 +1,7 @@
 import { UserService } from "./UserService";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { UserModel } from "../models/UserModel";
+import { PlainObjectOf } from "../utils/PlainObject";
 
 describe("UserService", () => {
   const user = new UserModel();
@@ -8,6 +9,7 @@ describe("UserService", () => {
   user.name = "someName";
   const userList = [user];
   const userModel = ({
+    create: jest.fn(),
     find: jest.fn().mockResolvedValue(userList),
     findById: jest.fn().mockResolvedValue(user)
   } as unknown) as ReturnModelType<typeof UserModel>;
@@ -25,6 +27,16 @@ describe("UserService", () => {
     it("returns user for specific id ", async () => {
       const result = await service.getUserById(user.id);
       expect(result).toEqual(user);
+    });
+  });
+
+  describe("addUser", () => {
+    it("creates a new user  ", async () => {
+      const plainUser = ({ id: "someId" } as unknown) as PlainObjectOf<
+        UserModel
+      >;
+      await service.addUser(plainUser);
+      expect(userModel.create).toHaveBeenCalledWith(plainUser);
     });
   });
 });

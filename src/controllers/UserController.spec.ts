@@ -4,8 +4,9 @@ import { UserModel } from "../models/UserModel";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { Request } from "@hapi/hapi";
 import { mocked } from "ts-jest/utils";
-import { NotFoundHttpError } from "../errors/NotFoundHttpError";
 import { HobbyModel } from "../models/HobbyModel";
+import * as mongoose from "mongoose";
+import { NotFoundHttpError, ValidationHttpError } from "../errors/HttpErrors";
 
 jest.mock("../services/UserService");
 describe("UserController", () => {
@@ -26,6 +27,7 @@ describe("UserController", () => {
 
   const userList = [user];
   const req: Request = ({
+    payload: {},
     params: {
       id: user.id
     }
@@ -33,7 +35,9 @@ describe("UserController", () => {
 
   mocked(service.getUserById).mockResolvedValue(user);
   mocked(service.getUserHobbiesById).mockResolvedValue(hobbies);
+  mocked(service.addUser).mockResolvedValue(user);
   mocked(service.getUsers).mockResolvedValue(userList);
+  beforeEach(() => jest.clearAllMocks());
   describe("getById", () => {
     it("throws not found error", async () => {
       mocked(service.getUserById).mockResolvedValueOnce(null);
@@ -87,6 +91,22 @@ describe("UserController", () => {
     it("searches hobbies by userId", async () => {
       const result = await controller.getHobbiesById(req);
       expect(service.getUserHobbiesById).toHaveBeenCalledWith(req.params.id);
+    });
+  });
+
+  describe("addUser", () => {
+    it("throws 422 error if validation fails", async () => {
+      mocked(service.addUser).mockRejectedValueOnce(
+        new mongoose.Error.ValidationError()
+      );
+      await expect(controller.add(req)).rejects.toThrowError(
+        ValidationHttpError
+      );
+    });
+    it("returns new user", async () => {
+      const result = await controller.add(req);
+      expect(result).toEqual(user);
+      expect(service.addUser).toHaveBeenCalledWith(req.payload);
     });
   });
 });

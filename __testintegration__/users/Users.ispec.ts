@@ -21,7 +21,7 @@ describe("Users", () => {
         expect.objectContaining(_.omit(fixtures.user1, "hobbies"))
       );
     });
-    it.skip("returns 404 for not found user", async () => {
+    it("returns 404 for not found user", async () => {
       const result = await request(getIntegrationTestApiUri()).get(
         `/users/notExitingUser`
       );
@@ -40,11 +40,37 @@ describe("Users", () => {
         ])
       );
     });
-    it.skip("returns 404 for not found user", async () => {
+    it("returns 404 for not found user", async () => {
       const result = await request(getIntegrationTestApiUri()).get(
         `/users/notExitingUser/hobbies`
       );
       expect(result.status).toEqual(404);
+    });
+  });
+
+  describe("POST /users", () => {
+    it("creates new user", async () => {
+      const result = await request(getIntegrationTestApiUri())
+        .post(`/users`)
+        .send({
+          name: "someCoolName"
+        });
+      expect(result.status).toEqual(200);
+    });
+    it("returns 422 for invalid input", async () => {
+      const result = await request(getIntegrationTestApiUri())
+        .post(`/users`)
+        .send({
+          name: "sh"
+        });
+      expect(result.status).toEqual(422);
+      expect(result.body).toEqual(
+        expect.objectContaining({
+          attributes: expect.objectContaining({
+            name: expect.any(Object)
+          })
+        })
+      );
     });
   });
 });

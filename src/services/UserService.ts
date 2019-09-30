@@ -1,10 +1,17 @@
 import { UserModel } from "../models/UserModel";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { HobbyModel } from "../models/HobbyModel";
+import { PlainObjectOf } from "../utils/PlainObject";
+import { NotFoundHttpError } from "../errors/HttpErrors";
 
 export class UserService {
   constructor(private readonly userModel: ReturnModelType<typeof UserModel>) {}
 
+  public async addUser(
+    user: DeepPartial<PlainObjectOf<UserModel>>
+  ): Promise<UserModel> {
+    return this.userModel.create(user);
+  }
   public async getUsers(): Promise<UserModel[]> {
     return this.userModel.find();
   }
@@ -18,7 +25,7 @@ export class UserService {
       .populate("hobbies")
       .exec();
     if (!user) {
-      throw new Error(`Could not find user with id: ${id}`);
+      throw new NotFoundHttpError(`Could not find user with id: ${id}`);
     }
     return user.hobbies as HobbyModel[];
   }

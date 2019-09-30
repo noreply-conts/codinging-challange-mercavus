@@ -1,8 +1,18 @@
-import { ServerOptions, Server as HapiServer, ServerInfo } from "@hapi/hapi";
+import {
+  ServerOptions,
+  Server as HapiServer,
+  ServerInfo,
+  Request
+} from "@hapi/hapi";
 import { UserController } from "./controllers/UserController";
 import * as inert from "@hapi/inert";
+import { HttpError } from "./errors/HttpErrors";
 import { logger } from "./Logger";
 
+// FIXME: Wrong typings in @types/boom for the current version see:
+// https://github.com/outmoded/discuss/issues/608
+/*tslint:disable-next-line*/
+import * as Boom from "@hapi/boom";
 export class Server {
   private readonly hapi: HapiServer;
 
@@ -22,11 +32,16 @@ export class Server {
     await this.registerMiddleware();
     this.initControllerRoutes();
     this.initPublicRoutes();
+    this.initListeners();
     return this.hapi.start();
   }
 
   public async stop() {
     return this.hapi.stop();
+  }
+
+  private initListeners() {
+    this.hapi.ext("onPreResponse", this.onError);
   }
 
   private async registerMiddleware() {
@@ -35,11 +50,33 @@ export class Server {
     });
   }
 
+  private onError = async (request: Request) => {
+    const response = request.response as Boom | HttpError & Boom;
+
+    if (response instanceof HttpError) {
+      response.output.statusCode = response.statusCode;
+      response.output.payload = {
+        statusCode: response.statusCode,
+        message: response.message,
+        error: response.constructor.name,
+        attributes: response.attributes
+      };
+    } else {
+      logger.error(response.message, response.stack);
+    }
+    return response;
+  };
+
   private initControllerRoutes() {
     this.hapi.route({
       method: "GET",
       path: this.ApiPrefix + "/users",
       handler: this.userController.list
+    });
+    this.hapi.route({
+      method: "POST",
+      path: this.ApiPrefix + "/users",
+      handler: this.userController.add
     });
 
     this.hapi.route({
