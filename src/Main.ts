@@ -7,6 +7,7 @@ import { UserController } from "./controllers/UserController";
 import { MongooseConfig } from "./boot/MongooseConfig";
 import { ExampleDataConfig } from "./boot/ExampleDataConfig";
 import { HobbyModel } from "./models/HobbyModel";
+import { HobbyService } from "./services/HobbyService";
 
 const { PORT = 3000 } = process.env;
 
@@ -26,8 +27,9 @@ export const bootstrap = async (): Promise<BootstrapReturn> => {
   const hobbyModel = getModelForClass(HobbyModel, {
     existingMongoose: mongoose
   });
+  const hobbyService = new HobbyService(hobbyModel);
   const userModel = getModelForClass(UserModel, { existingMongoose: mongoose });
-  const userService = new UserService(userModel);
+  const userService = new UserService(hobbyService, userModel);
   const userController = new UserController(userService);
 
   if (process.env.WITH_EXAMPLE_DATA !== "false") {

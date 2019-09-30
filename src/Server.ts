@@ -90,6 +90,11 @@ export class Server {
       handler: this.userController.getById
     });
     this.hapi.route({
+      method: "POST",
+      path: this.ApiPrefix + "/users/{id}/hobbies",
+      handler: this.userController.addHobby
+    });
+    this.hapi.route({
       method: "GET",
       path: this.ApiPrefix + "/users/{id}/hobbies",
       handler: this.userController.getHobbiesById

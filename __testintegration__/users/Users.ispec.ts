@@ -73,6 +73,32 @@ describe("Users", () => {
       );
     });
   });
+
+  describe("POST /users/{id}/hobbies", () => {
+    it("creates new hobby for a user", async () => {
+      const result = await request(getIntegrationTestApiUri())
+        .post(`/users/${fixtures.user1.id}/hobbies`)
+        .send({
+          name: "someCoolName"
+        });
+      expect(result.status).toEqual(200);
+    });
+    it("returns 422 for invalid input", async () => {
+      const result = await request(getIntegrationTestApiUri())
+        .post(`/users/${fixtures.user1.id}/hobbies`)
+        .send({
+          name: "sh"
+        });
+      expect(result.status).toEqual(422);
+      expect(result.body).toEqual(
+        expect.objectContaining({
+          attributes: expect.objectContaining({
+            name: expect.any(Object)
+          })
+        })
+      );
+    });
+  });
   describe("DELETE /users/{id}", () => {
     it("deletes user by id", async () => {
       const result = await request(getIntegrationTestApiUri())

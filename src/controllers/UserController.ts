@@ -29,6 +29,22 @@ export class UserController {
     const id = req.params.id;
     return await this.userService.getUserHobbiesById(id);
   };
+  public addHobby = async (req: Request): Promise<HobbyModel> => {
+    const id = req.params.id;
+    const payload = req.payload as DeepPartial<PlainObjectOf<HobbyModel>>;
+
+    let hobby: HobbyModel;
+    try {
+      hobby = await this.userService.addHobbyToUser(id, payload);
+    } catch (e) {
+      if (e instanceof mongoose.Error.ValidationError) {
+        throw new ValidationHttpError(e);
+      }
+      throw e;
+    }
+
+    return hobby;
+  };
 
   public delete = async (req: Request): Promise<null> => {
     const id = req.params.id;
@@ -50,7 +66,6 @@ export class UserController {
     }
     return this.toView(newUser);
   };
-
   private toView = (user: UserModel): UserView => {
     return _.pick(user, ["name", "id"]);
   };

@@ -7,12 +7,14 @@ import { mocked } from "ts-jest/utils";
 import { HobbyModel } from "../models/HobbyModel";
 import * as mongoose from "mongoose";
 import { NotFoundHttpError, ValidationHttpError } from "../errors/HttpErrors";
+import { HobbyService } from "../services/HobbyService";
 
 jest.mock("../services/UserService");
 describe("UserController", () => {
-  const service = new UserService((null as unknown) as ReturnModelType<
-    typeof UserModel
-  >);
+  const service = new UserService(
+    (null as unknown) as HobbyService,
+    (null as unknown) as ReturnModelType<typeof UserModel>
+  );
   const controller = new UserController(service);
 
   const user = ({
@@ -37,6 +39,7 @@ describe("UserController", () => {
   mocked(service.getUserHobbiesById).mockResolvedValue(hobbies);
   mocked(service.addUser).mockResolvedValue(user);
   mocked(service.getUsers).mockResolvedValue(userList);
+  mocked(service.addHobbyToUser).mockResolvedValue(hobbies[0]);
   mocked(service.deleteUserById).mockResolvedValue();
   beforeEach(() => jest.clearAllMocks());
   describe("getById", () => {
@@ -124,6 +127,21 @@ describe("UserController", () => {
       const result = await controller.delete(req);
       expect(result).toBeNull();
       expect(service.deleteUserById).toHaveBeenCalledWith(req.params.id);
+    });
+  });
+
+  describe("addHobby", () => {
+    it("throws 404 error if user not found", async () => {
+      mocked(service.addHobbyToUser).mockRejectedValueOnce(
+        new NotFoundHttpError("")
+      );
+      await expect(controller.addHobby(req)).rejects.toThrowError(
+        NotFoundHttpError
+      );
+    });
+    it("add hobby to user", async () => {
+      const result = await controller.addHobby(req);
+      expect(result).toEqual(hobbies[0]);
     });
   });
 });

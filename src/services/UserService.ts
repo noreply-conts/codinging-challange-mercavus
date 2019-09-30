@@ -3,9 +3,13 @@ import { ReturnModelType } from "@typegoose/typegoose";
 import { HobbyModel } from "../models/HobbyModel";
 import { PlainObjectOf } from "../utils/PlainObject";
 import { NotFoundHttpError } from "../errors/HttpErrors";
+import { HobbyService } from "./HobbyService";
 
 export class UserService {
-  constructor(private readonly userModel: ReturnModelType<typeof UserModel>) {}
+  constructor(
+    private readonly hobbyService: HobbyService,
+    private readonly userModel: ReturnModelType<typeof UserModel>
+  ) {}
 
   public async addUser(
     user: DeepPartial<PlainObjectOf<UserModel>>
@@ -24,6 +28,19 @@ export class UserService {
     if (result.deletedCount === 0) {
       throw new NotFoundHttpError(`Cound not find id ${id}`);
     }
+  }
+  public async addHobbyToUser(
+    userid: string,
+    hobbyPayload: DeepPartial<PlainObjectOf<HobbyModel>>
+  ): Promise<HobbyModel> {
+    const user = await this.userModel.findById(userid);
+    if (!user) {
+      throw new NotFoundHttpError("Could not find user with id " + userid);
+    }
+    const hobby = await this.hobbyService.addHobby(hobbyPayload);
+    user.hobbies.push(hobby);
+    await user.save();
+    return hobby;
   }
   public async getUserHobbiesById(id: string): Promise<HobbyModel[]> {
     const user = await this.userModel
