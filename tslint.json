@@ -6,7 +6,7 @@
     "object-literal-sort-keys": [false, "match-declaration-order"]
   },
   "rules": {
-    "no-submodule-imports": [true, "ts-jest/utils", "@hasezoey/typegoose/lib/internal/utils"],
+    "no-submodule-imports": [true, "ts-jest/utils", "@typegoose/typegoose/lib/internal/utils"],
     "no-floating-promises": true,
     "quotemark": false,
     "no-unused-expression": false,

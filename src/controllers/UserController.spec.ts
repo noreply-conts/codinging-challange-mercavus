@@ -1,7 +1,7 @@
 import { UserController } from "./UserController";
 import { UserService } from "../services/UserService";
 import { UserModel } from "../models/UserModel";
-import { ReturnModelType } from "@hasezoey/typegoose";
+import { ReturnModelType } from "@typegoose/typegoose";
 import { Request } from "@hapi/hapi";
 import { mocked } from "ts-jest/utils";
 import { NotFoundHttpError } from "../errors/NotFoundHttpError";

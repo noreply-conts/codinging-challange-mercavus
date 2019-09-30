@@ -4,7 +4,7 @@ import {
   buildSchema,
   getModelForClass,
   ReturnModelType
-} from "@hasezoey/typegoose";
+} from "@typegoose/typegoose";
 import { UserModel } from "./models/UserModel";
 import { UserService } from "./services/UserService";
 import { UserController } from "./controllers/UserController";

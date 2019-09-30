@@ -1,4 +1,4 @@
-import { prop, modelOptions } from "@hasezoey/typegoose";
+import { prop, modelOptions } from "@typegoose/typegoose";
 import * as _ from "lodash";
 import { PassionLevel } from "../constants/PassionLevel";
 import { v4 as uuidv4 } from "uuid";

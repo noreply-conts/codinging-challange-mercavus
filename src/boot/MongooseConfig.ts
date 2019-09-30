@@ -1,5 +1,5 @@
 import { MongoMemoryServer } from "mongodb-memory-server";
-import { mongoose } from "@hasezoey/typegoose";
+import { mongoose } from "@typegoose/typegoose";
 import { Mongoose } from "mongoose";
 
 export class MongooseConfig {

@@ -434,13 +434,6 @@
     "@hapi/bourne" "1.x.x"
     "@hapi/hoek" "8.x.x"
 
-"@hasezoey/typegoose@https://github.com/typegoose/typegoose.git#7190dce9483a69c80bd22a7d6a0a39911ea47e44":
-  version "6.0.0-31"
-  resolved "https://github.com/typegoose/typegoose.git#7190dce9483a69c80bd22a7d6a0a39911ea47e44"
-  dependencies:
-    loglevel "^1.6.4"
-    reflect-metadata "^0.1.13"
-
 "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.yarnpkg.com/@jest/console/-/console-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -631,6 +624,14 @@
   integrity sha512-MI4Xx6LHs4Webyvi6EbspgyAb4D2Q2VtnCQ1blOJcoLS6mVa8lNN2rkIy1CVxfTUpoyIbCTkXES1rLXztFD1lg==
   dependencies:
     any-observable "^0.3.0"
+
+"@typegoose/typegoose@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@typegoose/typegoose/-/typegoose-6.0.0.tgz#2c0c840222c492fda04294bc0034c3a2ded5cb5f"
+  integrity sha512-EQCSCwmB6/5iriBAzwIY3MmKzDf8Y50wh/82xXkonIRgRD8aS7u2CgYPvNRASZPIxEF/jlROVDzKJ44TrInprA==
+  dependencies:
+    loglevel "^1.6.4"
+    reflect-metadata "^0.1.13"
 
 "@types/babel__core@^7.1.0":
   version "7.1.3"

@@ -20,7 +20,7 @@
   "dependencies": {
     "@hapi/hapi": "^18.4.0",
     "@hapi/inert": "^5.2.2",
-    "@hasezoey/typegoose": "https://github.com/typegoose/typegoose.git#7190dce9483a69c80bd22a7d6a0a39911ea47e44",
+    "@typegoose/typegoose": "^6.0.0",
     "@types/mongoose": "^5.5.18",
     "jest-extended": "^0.11.2",
     "lodash": "^4.17.11",

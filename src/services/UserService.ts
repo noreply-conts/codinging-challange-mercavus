@@ -1,5 +1,5 @@
 import { UserModel } from "../models/UserModel";
-import { ReturnModelType } from "@hasezoey/typegoose";
+import { ReturnModelType } from "@typegoose/typegoose";
 import { HobbyModel } from "../models/HobbyModel";
 
 export class UserService {

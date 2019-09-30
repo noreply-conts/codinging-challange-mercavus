@@ -1,4 +1,4 @@
-import { ReturnModelType } from "@hasezoey/typegoose";
+import { ReturnModelType } from "@typegoose/typegoose";
 import { UserModel } from "../models/UserModel";
 import { Schema, Types } from "mongoose";
 import { HobbyModel } from "../models/HobbyModel";

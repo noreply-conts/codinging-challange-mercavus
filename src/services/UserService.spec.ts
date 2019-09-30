@@ -1,5 +1,5 @@
 import { UserService } from "./UserService";
-import { ReturnModelType } from "@hasezoey/typegoose";
+import { ReturnModelType } from "@typegoose/typegoose";
 import { UserModel } from "../models/UserModel";
 
 describe("UserService", () => {
