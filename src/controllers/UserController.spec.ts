@@ -37,6 +37,7 @@ describe("UserController", () => {
   mocked(service.getUserHobbiesById).mockResolvedValue(hobbies);
   mocked(service.addUser).mockResolvedValue(user);
   mocked(service.getUsers).mockResolvedValue(userList);
+  mocked(service.deleteUserById).mockResolvedValue();
   beforeEach(() => jest.clearAllMocks());
   describe("getById", () => {
     it("throws not found error", async () => {
@@ -107,6 +108,22 @@ describe("UserController", () => {
       const result = await controller.add(req);
       expect(result).toEqual(user);
       expect(service.addUser).toHaveBeenCalledWith(req.payload);
+    });
+  });
+
+  describe("deleteUser", () => {
+    it("throws 404 error if user not found", async () => {
+      mocked(service.deleteUserById).mockRejectedValueOnce(
+        new NotFoundHttpError("")
+      );
+      await expect(controller.delete(req)).rejects.toThrowError(
+        NotFoundHttpError
+      );
+    });
+    it("deletes user", async () => {
+      const result = await controller.delete(req);
+      expect(result).toBeNull();
+      expect(service.deleteUserById).toHaveBeenCalledWith(req.params.id);
     });
   });
 });

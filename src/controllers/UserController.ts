@@ -30,6 +30,12 @@ export class UserController {
     return await this.userService.getUserHobbiesById(id);
   };
 
+  public delete = async (req: Request): Promise<null> => {
+    const id = req.params.id;
+    await this.userService.deleteUserById(id);
+    return null;
+  };
+
   public add = async (req: Request): Promise<UserView> => {
     const body = req.payload as PlainObjectOf<Omit<UserModel, "hobbies">>;
     let newUser: UserModel;

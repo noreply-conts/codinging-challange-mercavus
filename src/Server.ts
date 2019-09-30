@@ -78,6 +78,11 @@ export class Server {
       path: this.ApiPrefix + "/users",
       handler: this.userController.add
     });
+    this.hapi.route({
+      method: "DELETE",
+      path: this.ApiPrefix + "/users/{id}",
+      handler: this.userController.delete
+    });
 
     this.hapi.route({
       method: "GET",

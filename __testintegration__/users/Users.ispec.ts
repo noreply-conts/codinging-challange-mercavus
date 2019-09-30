@@ -8,7 +8,7 @@ describe("Users", () => {
   describe("GET /users", () => {
     it("returns list of users", async () => {
       const result = await request(getIntegrationTestApiUri()).get("/users");
-      expect(result.body).toHaveLength(1);
+      expect(result.body).toHaveLength(Object.keys(fixtures).length);
     });
   });
 
@@ -71,6 +71,20 @@ describe("Users", () => {
           })
         })
       );
+    });
+  });
+  describe("DELETE /users/{id}", () => {
+    it("deletes user by id", async () => {
+      const result = await request(getIntegrationTestApiUri())
+        .delete(`/users/${fixtures.userToDelete.id}`)
+        .send();
+      expect(result.status).toEqual(200);
+    });
+    it("returns 404 for not found user", async () => {
+      const result = await request(getIntegrationTestApiUri())
+        .delete(`/users/notExitingUser`)
+        .send();
+      expect(result.status).toEqual(404);
     });
   });
 });

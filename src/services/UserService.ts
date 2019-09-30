@@ -19,6 +19,12 @@ export class UserService {
   public async getUserById(id: string): Promise<UserModel | null> {
     return this.userModel.findById(id);
   }
+  public async deleteUserById(id: string): Promise<void> {
+    const result = await this.userModel.deleteOne({ _id: id });
+    if (result.deletedCount === 0) {
+      throw new NotFoundHttpError(`Cound not find id ${id}`);
+    }
+  }
   public async getUserHobbiesById(id: string): Promise<HobbyModel[]> {
     const user = await this.userModel
       .findById(id)
