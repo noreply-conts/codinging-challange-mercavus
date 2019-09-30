@@ -1,16 +1,11 @@
 import { logger } from "./Logger";
 import { Server } from "./Server";
-import {
-  buildSchema,
-  getModelForClass,
-  ReturnModelType
-} from "@typegoose/typegoose";
+import { getModelForClass, ReturnModelType } from "@typegoose/typegoose";
 import { UserModel } from "./models/UserModel";
 import { UserService } from "./services/UserService";
 import { UserController } from "./controllers/UserController";
 import { MongooseConfig } from "./boot/MongooseConfig";
 import { ExampleDataConfig } from "./boot/ExampleDataConfig";
-import { Types } from "mongoose";
 import { HobbyModel } from "./models/HobbyModel";
 
 const { PORT = 3000 } = process.env;
@@ -23,6 +18,7 @@ if (Number.isNaN(port)) {
 interface BootstrapReturn {
   server: Server;
   userModel: ReturnModelType<typeof UserModel>;
+  hobbyModel: ReturnModelType<typeof HobbyModel>;
 }
 export const bootstrap = async (): Promise<BootstrapReturn> => {
   const mongooseConfig = new MongooseConfig();
@@ -47,7 +43,8 @@ export const bootstrap = async (): Promise<BootstrapReturn> => {
   await server.start();
   logger.info(`Server running on ${server.info.uri}`);
 
-  return { server, userModel };
+  // FIXME: Find better solution to pass models to integration tests!
+  return { server, userModel, hobbyModel };
 };
 
 if (require.main === module) {

@@ -5,6 +5,7 @@ import { ReturnModelType } from "@typegoose/typegoose";
 import { Request } from "@hapi/hapi";
 import { mocked } from "ts-jest/utils";
 import { NotFoundHttpError } from "../errors/NotFoundHttpError";
+import { HobbyModel } from "../models/HobbyModel";
 
 jest.mock("../services/UserService");
 describe("UserController", () => {
@@ -17,6 +18,12 @@ describe("UserController", () => {
     id: "someId"
   } as unknown) as UserModel;
 
+  const hobbies = [
+    {
+      id: "someId"
+    }
+  ] as HobbyModel[];
+
   const userList = [user];
   const req: Request = ({
     params: {
@@ -25,6 +32,7 @@ describe("UserController", () => {
   } as unknown) as Request;
 
   mocked(service.getUserById).mockResolvedValue(user);
+  mocked(service.getUserHobbiesById).mockResolvedValue(hobbies);
   mocked(service.getUsers).mockResolvedValue(userList);
   describe("getById", () => {
     it("throws not found error", async () => {
@@ -69,6 +77,16 @@ describe("UserController", () => {
       expect(result).not.toEqual(
         expect.arrayContaining([{ someProp: "someValue" }])
       );
+    });
+  });
+  describe("getHobbiesById", () => {
+    it("returns hobbies of users by userId", async () => {
+      const result = await controller.getHobbiesById(req);
+      expect(result).toEqual(hobbies);
+    });
+    it("searches hobbies by userId", async () => {
+      const result = await controller.getHobbiesById(req);
+      expect(service.getUserHobbiesById).toHaveBeenCalledWith(req.params.id);
     });
   });
 });

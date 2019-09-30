@@ -1,6 +1,8 @@
 import * as request from "supertest";
 import { getIntegrationTestApiUri } from "../utils";
 import { fixtures } from "../fixtures";
+import { HobbyModel } from "../../src/models/HobbyModel";
+import _ = require("lodash");
 
 describe("Users", () => {
   describe("GET /users", () => {
@@ -15,11 +17,32 @@ describe("Users", () => {
       const result = await request(getIntegrationTestApiUri()).get(
         `/users/${fixtures.user1.id}`
       );
-      expect(result.body).toEqual(expect.objectContaining(fixtures.user1));
+      expect(result.body).toEqual(
+        expect.objectContaining(_.omit(fixtures.user1, "hobbies"))
+      );
     });
     it.skip("returns 404 for not found user", async () => {
       const result = await request(getIntegrationTestApiUri()).get(
         `/users/notExitingUser`
+      );
+      expect(result.status).toEqual(404);
+    });
+  });
+
+  describe("GET /users/{id}/hobbies", () => {
+    it("returns hobbies of user", async () => {
+      const result = await request(getIntegrationTestApiUri()).get(
+        `/users/${fixtures.user1.id}/hobbies`
+      );
+      expect(result.body).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining(fixtures.user1.hobbies![0] as HobbyModel)
+        ])
+      );
+    });
+    it.skip("returns 404 for not found user", async () => {
+      const result = await request(getIntegrationTestApiUri()).get(
+        `/users/notExitingUser/hobbies`
       );
       expect(result.status).toEqual(404);
     });
