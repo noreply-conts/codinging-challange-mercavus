@@ -1,6 +1,7 @@
 import { UserModel } from "../src/models/UserModel";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { HobbyModel } from "../src/models/HobbyModel";
+import { DeepPartial } from "../src/utils/DeepPartial";
 export const fixtures: {
   user1: DeepPartial<UserModel>;
   userToDelete: DeepPartial<UserModel>;
