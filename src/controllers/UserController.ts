@@ -6,6 +6,7 @@ import { HobbyModel } from "../models/HobbyModel";
 import { PlainObjectOf } from "../utils/PlainObject";
 import * as mongoose from "mongoose";
 import { NotFoundHttpError, ValidationHttpError } from "../errors/HttpErrors";
+import { DeepPartial } from "../utils/DeepPartial";
 
 type UserView = Pick<UserModel, "id" | "name">;
 

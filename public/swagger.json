@@ -1,0 +1,314 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Simple Hobby List",
+    "description" : "Simple Hobby List",
+    "contact" : {
+      "email" : "sb@conts.de"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [{
+    "url" : "http://localhost:3000/api",
+    "description" : "User Hobbies"
+  } ],
+  "tags" : [ {
+    "name" : "public",
+    "description" : "Public access"
+  } ],
+  "paths" : {
+    "/users/{id}/hobbies/{hId}" : {
+      "delete" : {
+        "tags" : [ "public" ],
+        "summary" : "deletes hobby",
+        "operationId" : "deleteHobby",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "pass the userid",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "hId",
+          "in" : "path",
+          "description" : "pass the hobbyId",
+          "required" : false,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "delete ok"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      }
+    },
+    "/users/{id}/hobbies" : {
+      "get" : {
+        "tags" : [ "public" ],
+        "summary" : "get user hobbies",
+        "operationId" : "getUserHobbies",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "pass the userid",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/HobbyItem"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "public" ],
+        "summary" : "deletes user",
+        "operationId" : "deleteUserHobby",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "pass the userid",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/HobbyInput"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Create ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HobbyItem"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Invalid input"
+          }
+        }
+      }
+    },
+    "/users/{id}" : {
+      "get" : {
+        "tags" : [ "public" ],
+        "summary" : "get user by id",
+        "operationId" : "getUserById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "pass the userid",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "delete ok",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserItem"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "public" ],
+        "summary" : "deletes user",
+        "operationId" : "deleteUser",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "pass the userid",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "delete ok"
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      }
+    },
+    "/users" : {
+      "get" : {
+        "tags" : [ "public" ],
+        "summary" : "searches user",
+        "operationId" : "searchUser",
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/UserItem"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Not Found"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "public" ],
+        "summary" : "adds an user item",
+        "description" : "Adds an item to the system",
+        "operationId" : "addUser",
+        "requestBody" : {
+          "description" : "User item to add",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserInput"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "user created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserItem"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "invalid input, object invalid"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "UserInput" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Widget Adapter"
+          }
+        }
+      },
+      "UserItem" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Widget Adapter"
+          }
+        }
+      },
+      "HobbyInput" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Parkour"
+          },
+          "since" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2008-09-15T15:53:00+05:00"
+          }
+        }
+      },
+      "HobbyItem" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "d290f1ee-6c54-4b01-90e6-d701748f0851"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "Parkour"
+          },
+          "since" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2008-09-15T15:53:00+05:00"
+          }
+        }
+      }
+    }
+  }
+}

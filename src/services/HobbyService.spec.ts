@@ -2,6 +2,7 @@ import { HobbyModel } from "../models/HobbyModel";
 import { HobbyService } from "./HobbyService";
 import { ReturnModelType } from "@typegoose/typegoose";
 import { PlainObjectOf } from "../utils/PlainObject";
+import { DeepPartial } from "../utils/DeepPartial";
 
 describe("HobbyModel", () => {
   const model: ReturnModelType<typeof HobbyModel> = ({

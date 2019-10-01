@@ -1,10 +1,9 @@
 import { ReturnModelType } from "@typegoose/typegoose";
 import { UserModel } from "../models/UserModel";
-import { Schema, Types } from "mongoose";
 import { HobbyModel } from "../models/HobbyModel";
 import * as _ from "lodash";
 import uuid = require("uuid");
-import { PassionLevel } from "../constants/PassionLevel";
+import { DeepPartial } from "../utils/DeepPartial";
 
 export class ExampleDataBoot {
   private users: Array<DeepPartial<UserModel>> = [

@@ -4,7 +4,7 @@ import { HobbyModel } from "../models/HobbyModel";
 import { PlainObjectOf } from "../utils/PlainObject";
 import { NotFoundHttpError } from "../errors/HttpErrors";
 import { HobbyService } from "./HobbyService";
-
+import { DeepPartial } from "../utils/DeepPartial";
 export class UserService {
   constructor(
     private readonly hobbyService: HobbyService,

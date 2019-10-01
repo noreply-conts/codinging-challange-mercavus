@@ -61,8 +61,6 @@ export class Server {
         error: response.constructor.name,
         attributes: response.attributes
       };
-    } else {
-      logger.error(response.message, response.stack);
     }
     return response;
   };
@@ -107,6 +105,15 @@ export class Server {
       handler: {
         directory: {
           path: "public/"
+        }
+      }
+    });
+    this.hapi.route({
+      method: "GET",
+      path: "/docs/{file*}",
+      handler: {
+        directory: {
+          path: "public/swagger"
         }
       }
     });

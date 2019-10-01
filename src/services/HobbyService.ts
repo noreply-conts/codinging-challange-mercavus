@@ -1,6 +1,7 @@
 import { ReturnModelType } from "@typegoose/typegoose";
 import { HobbyModel } from "../models/HobbyModel";
 import { PlainObjectOf } from "../utils/PlainObject";
+import { DeepPartial } from "../utils/DeepPartial";
 
 export class HobbyService {
   constructor(
