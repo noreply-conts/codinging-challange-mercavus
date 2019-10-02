@@ -38,7 +38,7 @@ export const bootstrap = async (): Promise<BootstrapReturn> => {
   }
 
   const server = new Server(userController, {
-    port: 3000,
+    port,
     host: "localhost"
   });
 
