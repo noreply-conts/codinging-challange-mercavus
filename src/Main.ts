@@ -39,7 +39,7 @@ export const bootstrap = async (): Promise<BootstrapReturn> => {
 
   const server = new Server(userController, {
     port,
-    host: "localhost"
+    host: "0.0.0.0"
   });
 
   await server.start();
