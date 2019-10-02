@@ -9,7 +9,7 @@ Project for a Senior Backend Engineer (Nodejs, Mongo DB) position at mercavus
 
 * Clone repository 
 * Execute `yarn`
-* Execute `yarn start`
+* Execute `yarn start:dev`
 * Open http://localhost:3000
 * Open http://localhost:3000/swagger for swagger
 

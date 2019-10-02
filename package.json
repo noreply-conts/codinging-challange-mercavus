@@ -10,7 +10,7 @@
   },
   "scripts": {
     "build": "tsc --project ./tsconfig.build.json",
-    "start": "ts-node --project ./tsconfig.json src/Main.ts $NODE_DEBUG_OPTION",
+    "start": "node ./dist/Main.js",
     "start:dev": "tsc-watch -p tsconfig.build.json --onSuccess \"node dist/main.js\"",
     "lint": "tslint --project .",
     "test": "yarn test:unit && yarn test:integration",
